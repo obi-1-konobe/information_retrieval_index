@@ -24,14 +24,6 @@ class Parser:
             id -= 1
         pbar.close()
 
-    # @staticmethod
-    # def get_dir_size(dir_path):
-    #     all_files = os.listdir(dir_path)
-    #     total_size = 0
-    #     for file in all_files:
-    #         total_size += os.path.getsize(f'{dir_path}{file}')
-    #     return total_size
-
     @staticmethod
     def get_article(id):
         # выгрузка документа
