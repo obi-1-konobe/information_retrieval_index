@@ -1,7 +1,5 @@
 import os
 import pickle
-import re
-
 import configs as c
 from tqdm import tqdm
 from preprocess import Preprocessing
@@ -30,11 +28,6 @@ class GetIndex:
 
         with open(f'{c.INDEX_DIR}doc_id_doc_name_dict.pickle', 'wb') as f:
             pickle.dump(doc_id_doc_name_dict, f)
-
-        # index_list = sorted(os.listdir(c.TEMP_DIR))
-        # full_index = self.combine_block_index(index_list)
-        # with open(f'{c.INDEX_DIR}full_index.pickle', 'wb') as f:
-        #     pickle.dump(full_index, f)
 
     def get_block_index(self, block, doc_id_doc_name_dict):
         block_index = dict()

@@ -19,5 +19,5 @@ from spimi import GetIndex
 
 idx = GetIndex()
 # idx.save_block_index()
-idx.combine_block_index()
+# idx.combine_block_index()
 
