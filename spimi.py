@@ -1,5 +1,7 @@
 import os
 import pickle
+import re
+
 import configs as c
 from tqdm import tqdm
 from preprocess import Preprocessing
@@ -9,7 +11,7 @@ class GetIndex:
     def __init__(self):
         pass
 
-    def run(self):
+    def save_block_index(self):
         corpus_list = os.listdir(c.PATH_TO_CORPUS)
         doc_id_doc_name_dict = dict()
         block = []
@@ -29,10 +31,10 @@ class GetIndex:
         with open(f'{c.INDEX_DIR}doc_id_doc_name_dict.pickle', 'wb') as f:
             pickle.dump(doc_id_doc_name_dict, f)
 
-        index_list = sorted(os.listdir(c.INDEX_DIR))
-        full_index = self.combine_block_index(index_list)
-        with open(f'{c.INDEX_DIR}full_index.pickle', 'wb') as f:
-            pickle.dump(full_index, f)
+        # index_list = sorted(os.listdir(c.TEMP_DIR))
+        # full_index = self.combine_block_index(index_list)
+        # with open(f'{c.INDEX_DIR}full_index.pickle', 'wb') as f:
+        #     pickle.dump(full_index, f)
 
     def get_block_index(self, block, doc_id_doc_name_dict):
         block_index = dict()
@@ -54,8 +56,9 @@ class GetIndex:
         with open(f'{c.TEMP_DIR}index_{doc_id - 1}.pickle', 'wb') as f:
             pickle.dump(block_index, f)
 
-    @staticmethod
-    def combine_block_index(index_list):
+    def combine_block_index(self):
+        list_dir = os.listdir(c.TEMP_DIR)
+        index_list = sorted(list_dir, key=lambda x: int(x.strip('.pickle')[5:]))
         full_index = dict()
         for file in tqdm(index_list, ascii=True, desc='full index'):
             with open(f'{c.TEMP_DIR}{file}', 'rb') as f:
@@ -65,7 +68,8 @@ class GetIndex:
                     full_index[term] = index[term]
                 else:
                     full_index[term] += index[term]
-        return full_index
+        with open(f'{c.INDEX_DIR}full_index.pickle', 'wb') as f:
+            pickle.dump(full_index, f)
 
     @staticmethod
     def update_index(index, term_stream, doc_id):
@@ -81,6 +85,4 @@ class GetIndex:
                 tf_dict[term] += 1
 
         return tf_dict
-
-
 

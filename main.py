@@ -18,5 +18,6 @@ from spimi import GetIndex
 # print(asd)
 
 idx = GetIndex()
-idx.run()
+# idx.save_block_index()
+idx.combine_block_index()
 
