@@ -40,9 +40,6 @@ while True:
     else:
         result = []
     term_list = [query_1]
-    # query_2 = None
-    # list_2 = None
-    # operator = None
     while len(query_list) > 0:
         operator = query_list.pop(0)
         query_2 = query_list.pop(0)
@@ -60,9 +57,15 @@ while True:
             result = bs.query_not_query(result, list_2)
 
     ranked_list = RankList.rank_result_list(result, term_list, doc_id_doc_name_dict)
-    print(ranked_list)
-
-
+    for doc_tuple in ranked_list:
+        doc_name = doc_tuple[0]
+        print_string = c.SEPARATOR
+        with open(f'{c.PATH_TO_CORPUS}{doc_name}', 'r', encoding='utf-8') as f:
+            for _ in range(3):
+                print_string += f.readline()
+        url = 'https://habr.com/ru/post/' + doc_name.strip('.txt') + '/'
+        print_string += f'url: {url}'
+        print(print_string)
 
 
 

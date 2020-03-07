@@ -1,5 +1,7 @@
 # main
+
 STOP_DOWNLOAD_SIZE = 50
+SEPARATOR = '*' * 30 + '\n'
 
 # my_parser
 START_ID = 489734
