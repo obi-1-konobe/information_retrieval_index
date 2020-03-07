@@ -1,11 +1,9 @@
 class BooleanSearch:
-    def __init__(self, index):
-        self.index = index
-
-    def intersect(self, query_1, query_2):
+    # def __init__(self, index):
+    #     self.index = index
+    @staticmethod
+    def intersect(list_1, list_2):
         result_list = []
-        list_1 = self.index[query_1]
-        list_2 = self.index[query_2]
         iter_1 = iter(list_1)
         iter_2 = iter(list_2)
         length_1 = len(list_1)
@@ -31,10 +29,9 @@ class BooleanSearch:
 
         return result_list
 
-    def union(self, query_1, query_2):
+    @staticmethod
+    def union(list_1, list_2):
         result_list = []
-        list_1 = self.index[query_1]
-        list_2 = self.index[query_2]
         length_1 = len(list_1)
         length_2 = len(list_2)
 
@@ -64,10 +61,9 @@ class BooleanSearch:
 
         return result_list
 
-    def query_not_query(self, query_1, query_2):
+    @staticmethod
+    def query_not_query(list_1, list_2):
         result_list = []
-        list_1 = self.index[query_1]
-        list_2 = self.index[query_2]
         length_1 = len(list_1)
         length_2 = len(list_2)
 
