@@ -1,5 +1,6 @@
 # main
-
+CORPUS_PARSER = False
+BUILD_INDEX = False
 STOP_DOWNLOAD_SIZE = 50
 SEPARATOR = '*' * 30 + '\n'
 
