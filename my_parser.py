@@ -40,7 +40,7 @@ class Parser:
         # выгрузка документа
         req = requests.get('https://habr.com/ru/post/' + str(id) + '/')
         # парсинг документа
-        soup = BeautifulSoup(req.text, 'html5lib')  # instead of html.parser
+        soup = BeautifulSoup(req.text, 'html5lib')
         # если нет стать с таким id, то возвращаем False
         if not soup.find("span", {"class": "post__title-text"}):
             return False
