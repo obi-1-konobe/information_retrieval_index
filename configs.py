@@ -9,3 +9,6 @@ PATH_TO_CORPUS = 'corpus/'
 MEMORY_SIZE = 10**6
 INDEX_DIR = 'index/'
 TEMP_DIR = 'temp/'
+
+#preprocess
+OPERATORS = ['AND', 'OR', 'NOT']

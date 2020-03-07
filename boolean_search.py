@@ -16,7 +16,7 @@ class BooleanSearch:
 
         doc_1 = next(iter_1)
         doc_2 = next(iter_2)
-        while doc_1 <= max_value and doc_2 <= max_value:
+        while doc_1 < max_value and doc_2 < max_value:
             if doc_1 == doc_2:
                 result_list.append(doc_1)
                 doc_1 = next(iter_1)
@@ -26,6 +26,9 @@ class BooleanSearch:
                     doc_1 = next(iter_1)
                 else:
                     doc_2 = next(iter_2)
+
+        if doc_1 == doc_2:
+            result_list.append(doc_1)
 
         return result_list
 
@@ -56,8 +59,8 @@ class BooleanSearch:
                 idx_1 += 1
                 idx_2 += 1
 
-        result_list += list_1[max_idx + 1:]
-        result_list += list_2[max_idx + 1:]
+        result_list += list_1[idx_1:]
+        result_list += list_2[idx_2:]
 
         return result_list
 

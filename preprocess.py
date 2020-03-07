@@ -1,6 +1,7 @@
 import pymorphy2
 import nltk
 import re
+import configs as c
 from nltk.corpus import stopwords
 
 morph = pymorphy2.MorphAnalyzer()
@@ -23,4 +24,16 @@ class Preprocessing:
                       and token not in ru_stopwords]
 
         return terms
+
+    @staticmethod
+    def get_query_terms(query_list):
+        result_list = []
+        for token in query_list:
+            if token not in c.OPERATORS:
+                result_list.append(morph.parse(token)[0].normal_form)
+            else:
+                result_list.append(token)
+
+        return result_list
+
 
