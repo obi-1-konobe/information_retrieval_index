@@ -9,33 +9,28 @@ class BooleanSearch:
         :return: результирующий массив
         """
         result_list = []
+        if len(list_1) == 0 or len(list_2) == 0:
+            return result_list
         # инициализируем итераторы
         iter_1 = iter(list_1)
         iter_2 = iter(list_2)
-        length_1 = len(list_1)
-        length_2 = len(list_2)
-        # определяем последний элемент в самом коротком массиве
-        if length_1 > length_2:
-            max_value = list_2[-1]
-        else:
-            max_value = list_1[-1]
 
+        # пока не закончится самый короткий массив
         doc_1 = next(iter_1)
         doc_2 = next(iter_2)
-        # пока не закончится самый короткий массив
-        while doc_1 < max_value and doc_2 < max_value:
-            if doc_1 == doc_2:
-                result_list.append(doc_1)
-                doc_1 = next(iter_1)
-                doc_2 = next(iter_2)
-            else:
-                if doc_1 < doc_2:
+        while True:
+            try:
+                if doc_1 == doc_2:
+                    result_list.append(doc_1)
                     doc_1 = next(iter_1)
-                else:
                     doc_2 = next(iter_2)
-
-        if doc_1 == doc_2:
-            result_list.append(doc_1)
+                else:
+                    if doc_1 < doc_2:
+                        doc_1 = next(iter_1)
+                    else:
+                        doc_2 = next(iter_2)
+            except StopIteration:
+                break
 
         return result_list
 
@@ -48,18 +43,14 @@ class BooleanSearch:
         :return: результирующий массив
         """
         result_list = []
-        length_1 = len(list_1)
-        length_2 = len(list_2)
         # определяем  индекс последнего элемента в самом коротком массиве
-        if length_1 > length_2:
-            max_idx = length_2 - 1
-        else:
-            max_idx = length_1 - 1
+        max_idx_1 = len(list_1) - 1
+        max_idx_2 = len(list_2) - 1
 
         idx_1 = 0
         idx_2 = 0
         # пока не закончится самый короткий массив
-        while idx_1 <= max_idx and idx_2 <= max_idx:
+        while idx_1 <= max_idx_1 and idx_2 <= max_idx_2:
             doc_1 = list_1[idx_1]
             doc_2 = list_2[idx_2]
             if doc_1 > doc_2:
@@ -87,22 +78,17 @@ class BooleanSearch:
         :return: результирующий массив
         """
         result_list = []
-        length_1 = len(list_1)
-        length_2 = len(list_2)
-        # определяем  индекс последнего элемента в самом коротком массиве
-        if length_1 > length_2:
-            max_idx = length_2 - 1
-        else:
-            max_idx = length_1 - 1
+        # определяем  индекс последнего элемента в массиве
+        max_idx_1 = len(list_1) - 1
+        max_idx_2 = len(list_2) - 1
 
         idx_1 = 0
         idx_2 = 0
         # пока не закончится самый короткий массив
-        while idx_1 <= max_idx and idx_2 <= max_idx:
+        while idx_1 <= max_idx_1 and idx_2 <= max_idx_2:
             doc_1 = list_1[idx_1]
             doc_2 = list_2[idx_2]
             if doc_1 > doc_2:
-                result_list.append(doc_2)
                 idx_2 += 1
             elif doc_1 < doc_2:
                 result_list.append(doc_1)
@@ -111,7 +97,7 @@ class BooleanSearch:
                 idx_1 += 1
                 idx_2 += 1
         # добавляем остатки первого массива
-        result_list += list_1[max_idx + 1:]
+        result_list += list_1[idx_1:]
 
         return result_list
 

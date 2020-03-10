@@ -22,7 +22,7 @@ with open('index/doc_id_doc_name_dict.pickle', 'rb') as f:
     doc_id_doc_name_dict = pickle.load(f)
 
 while True:
-    print('Input your boolean query:')
+    print('\n\nInput your boolean query:')
     query_string = input('>')
     query_list = query_string.split()
     # преобразуем слова в термы
