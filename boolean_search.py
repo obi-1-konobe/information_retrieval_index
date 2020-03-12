@@ -75,9 +75,10 @@ class BooleanSearch:
     @staticmethod
     def not_query(query, index, doc_id_dict):
         """
-        исключение массива
-        :param list_1: массив id документов первого аргумента
-        :param list_2: массив id документов второго аргумента
+        отрицание
+        :param query: терм
+        :param index: обратный индекс корпуса документов
+        :param doc_id_dict: хэш с доп.информацией
         :return: результирующий массив
         """
         doc_id_list = list(doc_id_dict.keys())

@@ -36,9 +36,11 @@ class Preprocessing:
     @staticmethod
     def process_query(query_list, index, doc_id_dict):
         """
-        получаем термы из строки запроса
-        :param query_list: токенизированная строка запроса
-        :return: термы запроса
+        преобразовываем запрос в последовательность массивов id документов и операций над ними
+        :param query_list: список термов и операций
+        :param index: обратный индекс корпуса документов
+        :param doc_id_dict: хэш с доп.информацией
+        :return: список массивов и операций, список термов
         """
         temp_list = []
         for token in query_list:

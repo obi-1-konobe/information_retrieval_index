@@ -25,9 +25,11 @@ while True:
     print('\n\nInput your boolean query:')
     query_string = input('>')
     query_list = query_string.split()
-    # преобразуем слова в термы
+    # преобразуем в список массивов id и операций над ними
     arrays_and_operators, term_list = Preprocessing.process_query(query_list, index, doc_id_doc_name_dict)
+    # считываем первый массив
     result = arrays_and_operators.pop(0)
+    # пока в списке есть элементы
     while len(arrays_and_operators) > 0:
         operator = arrays_and_operators.pop(0)
         array = arrays_and_operators.pop(0)
@@ -50,12 +52,4 @@ while True:
         url = 'https://habr.com/ru/post/' + doc_name.strip('.txt') + '/'
         print_string += f'url: {url}'
         print(print_string)
-
-
-
-
-
-
-
-
 
