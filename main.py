@@ -26,34 +26,20 @@ while True:
     query_string = input('>')
     query_list = query_string.split()
     # преобразуем слова в термы
-    query_list = Preprocessing.get_query_terms(query_list)
-    query_1 = query_list.pop(0)
-    # проверяем наличие терма в индексе
-    if query_1 in index.keys():
-        result = index[query_1]
-    else:
-        result = []
-    # в term_list будем хранить термы из запроса
-    term_list = [query_1]
-    while len(query_list) > 0:
-        operator = query_list.pop(0)
-        query_2 = query_list.pop(0)
-        # проверяем наличие терма в индексе
-        if query_2 in index.keys():
-            list_2 = index[query_2]
-        else:
-            list_2 = []
+    arrays_and_operators, term_list = Preprocessing.process_query(query_list, index, doc_id_doc_name_dict)
+    result = arrays_and_operators.pop(0)
+    while len(arrays_and_operators) > 0:
+        operator = arrays_and_operators.pop(0)
+        array = arrays_and_operators.pop(0)
 
         if operator == 'AND':
-            result = bs.intersect(result, list_2)
-            term_list.append(query_2)
+            result = bs.intersect(result, array)
         elif operator == 'OR':
-            result = bs.union(result, list_2)
-            term_list.append(query_2)
-        elif operator == 'NOT':
-            result = bs.query_not_query(result, list_2)
+            result = bs.union(result, array)
+
     # ранжируем результаты поиска
-    ranked_list = RankList.rank_result_list(result, term_list, doc_id_doc_name_dict)
+    ranked_list, qty = RankList.rank_result_list(result, term_list, doc_id_doc_name_dict)
+    print(f'{qty} results found')
     # вывод результатов на экран
     for doc_tuple in ranked_list:
         doc_name = doc_tuple[0]

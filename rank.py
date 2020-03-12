@@ -28,7 +28,8 @@ class RankList:
         # сортируем по term frequency
         ranked_list = sorted(temp_list, key=lambda x: x[1], reverse=True)
 
-        if len(ranked_list) > 10:
+        results_qty = len(ranked_list)
+        if results_qty > 10:
             top_10 = ranked_list[:10]
-            return top_10
-        return ranked_list
+            return top_10, results_qty
+        return ranked_list, results_qty

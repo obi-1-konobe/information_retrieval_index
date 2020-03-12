@@ -1,3 +1,6 @@
+import configs as c
+
+
 class BooleanSearch:
 
     @staticmethod
@@ -70,34 +73,35 @@ class BooleanSearch:
         return result_list
 
     @staticmethod
-    def query_not_query(list_1, list_2):
+    def not_query(query, index, doc_id_dict):
         """
         исключение массива
         :param list_1: массив id документов первого аргумента
         :param list_2: массив id документов второго аргумента
         :return: результирующий массив
         """
+        doc_id_list = list(doc_id_dict.keys())
+        if query not in index.keys():
+            return doc_id_list
+        list_1 = index[query]
         result_list = []
         # определяем  индекс последнего элемента в массиве
-        max_idx_1 = len(list_1) - 1
-        max_idx_2 = len(list_2) - 1
+        max_idx = len(list_1) - 1
 
         idx_1 = 0
         idx_2 = 0
         # пока не закончится самый короткий массив
-        while idx_1 <= max_idx_1 and idx_2 <= max_idx_2:
+        while idx_1 <= max_idx:
             doc_1 = list_1[idx_1]
-            doc_2 = list_2[idx_2]
+            doc_2 = doc_id_list[idx_2]
             if doc_1 > doc_2:
+                result_list.append(doc_2)
                 idx_2 += 1
-            elif doc_1 < doc_2:
-                result_list.append(doc_1)
-                idx_1 += 1
             else:
                 idx_1 += 1
                 idx_2 += 1
         # добавляем остатки первого массива
-        result_list += list_1[idx_1:]
+        result_list += doc_id_list[idx_2:]
 
         return result_list
 
