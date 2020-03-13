@@ -1,3 +1,6 @@
+"""
+модуль содержит функции реализующие обработку документов в термы
+"""
 import pymorphy2
 import nltk
 import re
@@ -11,6 +14,9 @@ ru_stopwords = stopwords.words('russian')
 
 
 class Preprocessing:
+    """
+    класс содержит функции реализующие обработку документов в термы
+    """
 
     @staticmethod
     def get_terms(doc_path):
@@ -27,8 +33,8 @@ class Preprocessing:
             # сплитим строку по небуквенным символам
             tokens = re.split(r'\W', line)
             # приводим слова к номальной форме
-            terms += [morph.parse(token)[0].normal_form for token in tokens \
-                      if token != '' \
+            terms += [morph.parse(token)[0].normal_form for token in tokens
+                      if token != ''
                       and token not in ru_stopwords]
 
         return terms
@@ -36,7 +42,8 @@ class Preprocessing:
     @staticmethod
     def process_query(query_list, index, doc_id_dict):
         """
-        преобразовываем запрос в последовательность массивов article_id документов и операций над ними
+        преобразовываем запрос в последовательность массивов article_id
+        документов и операций над ними
         :param query_list: список термов и операций
         :param index: обратный индекс корпуса документов
         :param doc_id_dict: хэш с доп.информацией

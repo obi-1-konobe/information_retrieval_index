@@ -17,5 +17,5 @@ MEMORY_SIZE = 10**6
 INDEX_DIR = 'index/'
 TEMP_DIR = 'temp/'
 
-#preprocess
+# preprocess
 OPERATORS = ['AND', 'OR', 'NOT']
