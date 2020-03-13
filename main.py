@@ -29,7 +29,11 @@ while True:
     query_string = input('>')
     query_list = query_string.split()
     # преобразуем в список массивов article_id и операций над ними
-    arrays_and_operators, term_list = pp.process_query(query_list, index, doc_id_doc_name_dict)
+    arrays_and_operators, term_list = pp.process_query(
+        query_list,
+        index,
+        doc_id_doc_name_dict
+    )
     # считываем первый массив
     result = arrays_and_operators.pop(0)
     # пока в списке есть элементы
@@ -43,7 +47,11 @@ while True:
             result = bs.union(result, array)
 
     # ранжируем результаты поиска
-    ranked_list, qty = RankList.rank_result_list(result, term_list, doc_id_doc_name_dict)
+    ranked_list, qty = RankList.rank_result_list(
+        result,
+        term_list,
+        doc_id_doc_name_dict
+    )
     print(f'{qty} results found')
     # вывод результатов на экран
     for doc_tuple in ranked_list:

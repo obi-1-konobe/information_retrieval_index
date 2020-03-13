@@ -1,5 +1,6 @@
 """
-модуль содержит функции реализующие построение обратного индекса корпуса документов
+модуль содержит функции реализующие построение
+обратного индекса корпуса документов
 """
 import os
 import pickle
@@ -10,12 +11,14 @@ from preprocess import Preprocessing
 
 class GetIndex:
     """
-    класс содержит функции реализующие построение обратного индекса корпуса документов
+    класс содержит функции реализующие построение
+    обратного индекса корпуса документов
     """
 
     def save_block_index(self):
         """
-        разбиваем корпус на блоки и для каждого блока строим обратный индекс и сохраняем его на диск
+        разбиваем корпус на блоки и для каждого блока строим
+        обратный индекс и сохраняем его на диск
         :return:
         """
         corpus_list = os.listdir(c.PATH_TO_CORPUS)
@@ -61,7 +64,8 @@ class GetIndex:
             doc_path = f'{c.PATH_TO_CORPUS}{doc}'
             # преобразуем документ в массив термов
             doc_terms = Preprocessing.get_terms(doc_path)
-            # обновляем блочный индекс и строим хэш с частотами термов в документе
+            # обновляем блочный индекс и строим хэш с частотами термов
+            # в документе
             doc_tf_dict = self.update_index(block_index, doc_terms, doc_id)
             # сопоставляем название документа и хэш с частотами термов
             temp_dict = dict()
@@ -80,7 +84,10 @@ class GetIndex:
         :return:
         """
         list_dir = os.listdir(c.TEMP_DIR)
-        index_list = sorted(list_dir, key=lambda x: int(x.strip('.pickle')[5:]))
+        index_list = sorted(
+            list_dir,
+            key=lambda x: int(x.strip('.pickle')[5:])
+        )
         full_index = dict()
         for file in tqdm(index_list, ascii=True, desc='full index'):
             with open(f'{c.TEMP_DIR}{file}', 'rb') as f:
@@ -109,7 +116,8 @@ class GetIndex:
                 index[term] = [doc_id]
                 # частота терма в документе
                 tf_dict[term] = 1
-            # если терм в индексе есть, но в данном документе он встретился впервые
+            # если терм в индексе есть, но в данном документе он
+            # встретился впервые
             elif doc_id not in index[term]:
                 index[term] += [doc_id]
                 tf_dict[term] = 1

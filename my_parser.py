@@ -39,7 +39,8 @@ class Parser:
     @staticmethod
     def get_article(article_id):
         """
-        проверяем наличие статьи по id, если статья есть, то сохраняем ее в txt-файле на диске
+        проверяем наличие статьи по id, если статья есть,
+        то сохраняем ее в txt-файле на диске
         :param article_id: id статьи
         :return: название сохраненного файла или False
         """
@@ -57,6 +58,11 @@ class Parser:
 
             file_name = f'{article_id}.txt'
             with open(f'corpus/{file_name}', 'w', encoding='utf-8') as f:
-                f.write(f'ID: {article_id}\ntime: {time}\ntitle: {title}\ntext: {text}')
+                f.write(
+                    f'ID: {article_id}\n\
+                    time: {time}\n\
+                    title: {title}\n\
+                    text: {text}'
+                )
 
             return file_name
