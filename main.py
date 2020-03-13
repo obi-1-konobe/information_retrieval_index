@@ -1,7 +1,10 @@
+"""
+интерфейсный модуль для оркестрации процессами программы.
+"""
 import pickle
 import configs as c
 from my_parser import Parser
-from preprocess import Preprocessing
+from preprocess import Preprocessing as pp
 from spimi import GetIndex
 from rank import RankList
 from boolean_search import BooleanSearch as bs
@@ -25,8 +28,8 @@ while True:
     print('\n\nInput your boolean query:')
     query_string = input('>')
     query_list = query_string.split()
-    # преобразуем в список массивов id и операций над ними
-    arrays_and_operators, term_list = Preprocessing.process_query(query_list, index, doc_id_doc_name_dict)
+    # преобразуем в список массивов article_id и операций над ними
+    arrays_and_operators, term_list = pp.process_query(query_list, index, doc_id_doc_name_dict)
     # считываем первый массив
     result = arrays_and_operators.pop(0)
     # пока в списке есть элементы
@@ -52,4 +55,3 @@ while True:
         url = 'https://habr.com/ru/post/' + doc_name.strip('.txt') + '/'
         print_string += f'url: {url}'
         print(print_string)
-

@@ -1,14 +1,19 @@
-import configs as c
+"""
+модуль содержит функции реализующие элементы математической логики
+"""
 
 
 class BooleanSearch:
+    """
+    класс содержит функции реализующие элементы математической логики
+    """
 
     @staticmethod
     def intersect(list_1, list_2):
         """
         пересечение массивов
-        :param list_1: массив id документов первого аргумента
-        :param list_2: массив id документов второго аргумента
+        :param list_1: массив article_id документов первого аргумента
+        :param list_2: массив article_id документов второго аргумента
         :return: результирующий массив
         """
         result_list = []
@@ -41,8 +46,8 @@ class BooleanSearch:
     def union(list_1, list_2):
         """
         объединение массивов
-        :param list_1: массив id документов первого аргумента
-        :param list_2: массив id документов второго аргумента
+        :param list_1: массив article_id документов первого аргумента
+        :param list_2: массив article_id документов второго аргумента
         :return: результирующий массив
         """
         result_list = []
@@ -105,4 +110,3 @@ class BooleanSearch:
         result_list += doc_id_list[idx_2:]
 
         return result_list
-

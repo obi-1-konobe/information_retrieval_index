@@ -1,3 +1,7 @@
+"""
+модуль содержит константы и тригеры для конфигурации программы
+"""
+
 # main
 CORPUS_PARSER = False
 BUILD_INDEX = False

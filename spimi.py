@@ -1,11 +1,17 @@
+"""
+модуль содержит функции реализующие построение обратного индекса корпуса документов
+"""
 import os
 import pickle
-import configs as c
 from tqdm import tqdm
+import configs as c
 from preprocess import Preprocessing
 
 
 class GetIndex:
+    """
+    класс содержит функции реализующие построение обратного индекса корпуса документов
+    """
 
     def save_block_index(self):
         """
@@ -39,13 +45,14 @@ class GetIndex:
 
     def get_block_index(self, block, doc_id_doc_name_dict):
         """
-        строим обратный индекс для блока документов и сохраняем его на диск, обновляем хэш с доп.информацией
+        строим обратный индекс для блока документов и сохраняем его на диск,
+        обновляем хэш с доп.информацией
         :param block: блок документов
         :param doc_id_doc_name_dict: хэш с доп.информацией
         :return:
         """
         block_index = dict()
-        # определяем id документа
+        # определяем article_id документа
         if len(doc_id_doc_name_dict.keys()) == 0:
             doc_id = 0
         else:
@@ -92,7 +99,7 @@ class GetIndex:
         обновляем блочный индекс и строим хэш с частотами термов в документе
         :param index: блочный индекс
         :param term_stream: массив термов документа
-        :param doc_id: id документа
+        :param doc_id: article_id документа
         :return: хэш с частотами термов в документе
         """
         tf_dict = dict()
@@ -111,4 +118,3 @@ class GetIndex:
                 tf_dict[term] += 1
 
         return tf_dict
-

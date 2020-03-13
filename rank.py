@@ -1,7 +1,13 @@
+"""
+модуль содержит функции реализующие ранжирование документов
+"""
 import math
 
 
 class RankList:
+    """
+    класс содержит функции реализующие ранжирование документов
+    """
     @staticmethod
     def rank_result_list(result_list, term_list, doc_dict):
         """
