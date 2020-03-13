@@ -4,6 +4,7 @@
 """
 import os
 import pickle
+from typing import List, Dict
 from tqdm import tqdm
 import configs as c
 from preprocess import Preprocessing
@@ -21,14 +22,16 @@ class GetIndex:
         обратный индекс и сохраняем его на диск
         :return:
         """
-        corpus_list = os.listdir(c.PATH_TO_CORPUS)
+        corpus_list: List[str] = os.listdir(c.PATH_TO_CORPUS)
         # хэш с доп.информацией
-        doc_id_doc_name_dict = dict()
-        block = []
+        doc_id_doc_name_dict: Dict = dict()
+        block: List[str]
+        block_size: int
+        block = list()
         block_size = 0
         for doc in tqdm(corpus_list, ascii=True, desc='block index'):
-            doc_path = f'{c.PATH_TO_CORPUS}{doc}'
-            doc_size = os.path.getsize(doc_path)
+            doc_path: str = f'{c.PATH_TO_CORPUS}{doc}'
+            doc_size: int = os.path.getsize(doc_path)
             # пока не превышен лимит по памяти, набираем в блок документы
             if block_size < c.MEMORY_SIZE:
                 block.append(doc)
@@ -46,7 +49,7 @@ class GetIndex:
         with open(f'{c.INDEX_DIR}doc_id_doc_name_dict.pickle', 'wb') as f:
             pickle.dump(doc_id_doc_name_dict, f)
 
-    def get_block_index(self, block, doc_id_doc_name_dict):
+    def get_block_index(self, block: List[str], doc_id_doc_name_dict: Dict):
         """
         строим обратный индекс для блока документов и сохраняем его на диск,
         обновляем хэш с доп.информацией
@@ -54,21 +57,25 @@ class GetIndex:
         :param doc_id_doc_name_dict: хэш с доп.информацией
         :return:
         """
-        block_index = dict()
+        block_index: Dict[str, List] = dict()
         # определяем article_id документа
         if len(doc_id_doc_name_dict.keys()) == 0:
-            doc_id = 0
+            doc_id: int = 0
         else:
-            doc_id = max(doc_id_doc_name_dict.keys()) + 1
+            doc_id: int = max(doc_id_doc_name_dict.keys()) + 1
         for doc in block:
-            doc_path = f'{c.PATH_TO_CORPUS}{doc}'
+            doc_path: str = f'{c.PATH_TO_CORPUS}{doc}'
             # преобразуем документ в массив термов
-            doc_terms = Preprocessing.get_terms(doc_path)
+            doc_terms: List[str] = Preprocessing.get_terms(doc_path)
             # обновляем блочный индекс и строим хэш с частотами термов
             # в документе
-            doc_tf_dict = self.update_index(block_index, doc_terms, doc_id)
+            doc_tf_dict: Dict = self.update_index(
+                block_index,
+                doc_terms,
+                doc_id
+            )
             # сопоставляем название документа и хэш с частотами термов
-            temp_dict = dict()
+            temp_dict: Dict[str, Dict] = dict()
             temp_dict[doc] = doc_tf_dict
             # обновляем хэш с доп.информацией
             doc_id_doc_name_dict[doc_id] = temp_dict
@@ -83,12 +90,12 @@ class GetIndex:
         объединяем все блочные индексы в один общий обратный индекс
         :return:
         """
-        list_dir = os.listdir(c.TEMP_DIR)
-        index_list = sorted(
+        list_dir: List[str] = os.listdir(c.TEMP_DIR)
+        index_list: List[str] = sorted(
             list_dir,
             key=lambda x: int(x.strip('.pickle')[5:])
         )
-        full_index = dict()
+        full_index: Dict[str, List] = dict()
         for file in tqdm(index_list, ascii=True, desc='full index'):
             with open(f'{c.TEMP_DIR}{file}', 'rb') as f:
                 index = pickle.load(f)
@@ -101,7 +108,11 @@ class GetIndex:
             pickle.dump(full_index, f)
 
     @staticmethod
-    def update_index(index, term_stream, doc_id):
+    def update_index(
+            index: Dict[str, List],
+            term_stream: List[str],
+            doc_id: int
+    ) -> Dict[str, int]:
         """
         обновляем блочный индекс и строим хэш с частотами термов в документе
         :param index: блочный индекс
@@ -109,7 +120,7 @@ class GetIndex:
         :param doc_id: article_id документа
         :return: хэш с частотами термов в документе
         """
-        tf_dict = dict()
+        tf_dict: Dict[str, int] = dict()
         for term in term_stream:
             # если терма нет в индексе, вносим его
             if term not in index:

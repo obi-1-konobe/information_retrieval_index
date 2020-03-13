@@ -1,6 +1,7 @@
 """
 модуль содержит функции реализующие элементы математической логики
 """
+from typing import List, Iterator, Dict
 
 
 class BooleanSearch:
@@ -9,21 +10,23 @@ class BooleanSearch:
     """
 
     @staticmethod
-    def intersect(list_1, list_2):
+    def intersect(list_1: List[int], list_2: List[int]) -> List[int]:
         """
         пересечение массивов
         :param list_1: массив article_id документов первого аргумента
         :param list_2: массив article_id документов второго аргумента
         :return: результирующий массив
         """
-        result_list = []
+        result_list: List[int] = list()
         if len(list_1) == 0 or len(list_2) == 0:
             return result_list
         # инициализируем итераторы
-        iter_1 = iter(list_1)
-        iter_2 = iter(list_2)
+        iter_1: Iterator = iter(list_1)
+        iter_2: Iterator = iter(list_2)
 
         # пока не закончится самый короткий массив
+        doc_1: int
+        doc_2: int
         doc_1 = next(iter_1)
         doc_2 = next(iter_2)
         while True:
@@ -43,24 +46,24 @@ class BooleanSearch:
         return result_list
 
     @staticmethod
-    def union(list_1, list_2):
+    def union(list_1: List[int], list_2: List[int]) -> List[int]:
         """
         объединение массивов
         :param list_1: массив article_id документов первого аргумента
         :param list_2: массив article_id документов второго аргумента
         :return: результирующий массив
         """
-        result_list = []
+        result_list: List[int] = list()
         # определяем  индекс последнего элемента в самом коротком массиве
-        max_idx_1 = len(list_1) - 1
-        max_idx_2 = len(list_2) - 1
+        max_idx_1: int = len(list_1) - 1
+        max_idx_2: int = len(list_2) - 1
 
-        idx_1 = 0
-        idx_2 = 0
+        idx_1: int = 0
+        idx_2: int = 0
         # пока не закончится самый короткий массив
         while idx_1 <= max_idx_1 and idx_2 <= max_idx_2:
-            doc_1 = list_1[idx_1]
-            doc_2 = list_2[idx_2]
+            doc_1: int = list_1[idx_1]
+            doc_2: int = list_2[idx_2]
             if doc_1 > doc_2:
                 result_list.append(doc_2)
                 idx_2 += 1
@@ -78,7 +81,11 @@ class BooleanSearch:
         return result_list
 
     @staticmethod
-    def not_query(query, index, doc_id_dict):
+    def not_query(
+            query: str,
+            index: Dict[str, List[int]],
+            doc_id_dict: Dict
+    ) -> List[int]:
         """
         отрицание
         :param query: терм
@@ -86,20 +93,20 @@ class BooleanSearch:
         :param doc_id_dict: хэш с доп.информацией
         :return: результирующий массив
         """
-        doc_id_list = list(doc_id_dict.keys())
+        doc_id_list: List[int] = list(doc_id_dict.keys())
         if query not in index.keys():
             return doc_id_list
-        list_1 = index[query]
-        result_list = []
+        list_1: List[int] = index[query]
+        result_list: List[int] = list()
         # определяем  индекс последнего элемента в массиве
-        max_idx = len(list_1) - 1
+        max_idx: int = len(list_1) - 1
 
-        idx_1 = 0
-        idx_2 = 0
+        idx_1: int = 0
+        idx_2: int = 0
         # пока не закончится самый короткий массив
         while idx_1 <= max_idx:
-            doc_1 = list_1[idx_1]
-            doc_2 = doc_id_list[idx_2]
+            doc_1: int = list_1[idx_1]
+            doc_2: int = doc_id_list[idx_2]
             if doc_1 > doc_2:
                 result_list.append(doc_2)
                 idx_2 += 1
