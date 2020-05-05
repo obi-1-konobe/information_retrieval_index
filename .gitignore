@@ -1,6 +1,7 @@
 .idea
+.ipynb_checkpoints
 __pycache__
-env
-corpus/
-index/
-temp/
+venv
+*.txt
+*.pickle
+*.json
