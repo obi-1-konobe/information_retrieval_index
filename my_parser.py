@@ -2,6 +2,7 @@
 модуль содержит функции реализующие парсинг статей с сайта
 """
 import os
+import json
 import requests
 from typing import Union
 from bs4 import BeautifulSoup
@@ -21,49 +22,17 @@ class Parser:
         :return:
         """
         # переводим Мбайты в байты
-        stop_size *= 1000000
-        dir_size: int = 0
-        # article_id статьи с которой начинаем парсить в порядке убывания
-        article_id: int = c.START_ID
+        article_id: int = 0
         dir_path: str = c.PATH_TO_CORPUS
+        with open('corpus/News_Category_Dataset_v2.json', 'r') as f:
+            data = f.readlines()
+
         # визуализация прогресса
-        pbar = tqdm(total=stop_size)
-        while dir_size <= stop_size:
-            article: str = self.get_article(article_id)
-            if article:
-                article_size: int = os.path.getsize(f'{dir_path}{article}')
-                dir_size += article_size
-                pbar.update(article_size)
-            article_id -= 1
-        pbar.close()
+        for line in tqdm(data, ascii=True, desc='parser'):
+            json_line = json.loads(line)
+            with open(f'{dir_path}{article_id}.txt', 'w+') as f:
+                f.write(json_line['headline'])
+                f.write('\n')
+                f.write(json_line['short_description'])
+            article_id += 1
 
-    @staticmethod
-    def get_article(article_id: int) -> Union[str, bool]:
-        """
-        проверяем наличие статьи по id, если статья есть,
-        то сохраняем ее в txt-файле на диске
-        :param article_id: id статьи
-        :return: название сохраненного файла или False
-        """
-        # выгрузка документа
-        req = requests.get('https://habr.com/ru/post/' + str(article_id) + '/')
-        # парсинг документа
-        soup = BeautifulSoup(req.text, 'html5lib')
-        # если нет стать с таким article_id, то возвращаем False
-        if not soup.find("span", {"class": "post__title-text"}):
-            return False
-        else:
-            title: str = soup.find("span", {"class": "post__title-text"}).text
-            text: str = soup.find("div", {"class": "post__text"}).text
-            time: str = soup.find("span", {"class": "post__time"}).text
-
-            file_name: str = f'{article_id}.txt'
-            with open(f'corpus/{file_name}', 'w', encoding='utf-8') as f:
-                f.write(
-                    f'ID: {article_id}\n\
-                    time: {time}\n\
-                    title: {title}\n\
-                    text: {text}'
-                )
-
-            return file_name

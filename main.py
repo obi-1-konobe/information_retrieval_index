@@ -17,6 +17,7 @@ if c.CORPUS_PARSER:
     p.run(c.STOP_DOWNLOAD_SIZE)
 # триггер на сборку обратного индекса
 if c.BUILD_INDEX:
+
     idx = GetIndex()
     idx.save_block_index()
     idx.combine_block_index()
@@ -62,6 +63,4 @@ while True:
         with open(f'{c.PATH_TO_CORPUS}{doc_name}', 'r', encoding='utf-8') as f:
             for _ in range(3):
                 print_string += f.readline()
-        url = 'https://habr.com/ru/post/' + doc_name.strip('.txt') + '/'
-        print_string += f'url: {url}'
         print(print_string)

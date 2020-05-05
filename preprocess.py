@@ -1,22 +1,26 @@
 """
 модуль содержит функции реализующие обработку документов в термы
 """
-import pymorphy2
 import nltk
-import re
 from typing import List, Dict, Union, Tuple
 import configs as c
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 from boolean_search import BooleanSearch as bs
 # инициализация лексических библиотек
-morph = pymorphy2.MorphAnalyzer()
-ru_stopwords = stopwords.words('russian')
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+
 
 
 class Preprocessing:
     """
     класс содержит функции реализующие обработку документов в термы
     """
+    nltk.download('stopwords')
+    nltk.download('punkt')
+    nltk.download('wordnet')
 
     @staticmethod
     def get_terms(doc_path: str) -> List[str]:
@@ -25,18 +29,19 @@ class Preprocessing:
         :param doc_path: путь к документу
         :return: массив термов
         """
-        nltk.download('stopwords')
+
+        en_stopwords = stopwords.words('english')
+        lemmatizer = WordNetLemmatizer()
         with open(doc_path, 'r', encoding='utf-8') as f:
             doc: List[str] = f.readlines()
 
         terms: List[str] = []
         for line in doc:
             # сплитим строку по небуквенным символам
-            tokens: List[str] = re.split(r'\W', line)
+            tokens: List[str] = nltk.word_tokenize(line)
+            filtered_tokens = [w for w in tokens if w not in en_stopwords]
             # приводим слова к номальной форме
-            terms += [morph.parse(token)[0].normal_form for token in tokens
-                      if token != ''
-                      and token not in ru_stopwords]
+            terms += [lemmatizer.lemmatize(token) for token in filtered_tokens]
 
         return terms
 
@@ -55,10 +60,11 @@ class Preprocessing:
         :return: список массивов и операций, список термов
         """
         temp_list: List[str] = list()
+        lemmatizer = WordNetLemmatizer()
         for token in query_list:
             # преобразуем слова, операторы не изменяем
             if token not in c.OPERATORS:
-                temp_list.append(morph.parse(token)[0].normal_form)
+                temp_list.append(lemmatizer.lemmatize(token))
             else:
                 temp_list.append(token)
 

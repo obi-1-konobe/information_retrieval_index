@@ -1,0 +1,4 @@
+#!/home/obi-1-konobe/projects/mag/mir/task_02/information_retrieval_index/venv/bin/python
+import sys
+from pymorphy2 import cli
+sys.exit(cli.main())
