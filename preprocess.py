@@ -13,7 +13,6 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 
-
 class Preprocessing:
     """
     класс содержит функции реализующие обработку документов в термы
@@ -48,7 +47,7 @@ class Preprocessing:
     @staticmethod
     def process_query(
             query_list: List[str],
-            index: Dict[str, List],
+            index: Dict[int, List],
             doc_id_dict: Dict
     ) -> Tuple[List, List]:
         """

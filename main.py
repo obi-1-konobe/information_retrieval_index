@@ -14,10 +14,9 @@ from boolean_search import BooleanSearch as bs
 # триггер на запуск парсера
 if c.CORPUS_PARSER:
     p = Parser()
-    p.run(c.STOP_DOWNLOAD_SIZE)
+    p.run()
 # триггер на сборку обратного индекса
 if c.BUILD_INDEX:
-
     idx = GetIndex()
     idx.save_block_index()
     idx.combine_block_index()
@@ -48,17 +47,20 @@ while True:
             result: List[int] = bs.intersect(result, array)
         elif operator == 'OR':
             result: List[int] = bs.union(result, array)
-
+    if len(result) == 0:
+        print('No such results')
+        continue
     # ранжируем результаты поиска
-    ranked_list, qty = RankList.rank_result_list(
+    rl = RankList()
+    ranked_list, qty = rl.rank_list(
         result,
         term_list,
-        doc_id_doc_name_dict
+        doc_id_doc_name_dict,
+        query_string
     )
     print(f'{qty} results found')
     # вывод результатов на экран
-    for doc_tuple in ranked_list:
-        doc_name: str = doc_tuple[0]
+    for doc_name in ranked_list:
         print_string: str = c.SEPARATOR
         with open(f'{c.PATH_TO_CORPUS}{doc_name}', 'r', encoding='utf-8') as f:
             for _ in range(3):
