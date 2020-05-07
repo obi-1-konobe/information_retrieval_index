@@ -13,7 +13,6 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 
-
 class Preprocessing:
     """
     класс содержит функции реализующие обработку документов в термы
