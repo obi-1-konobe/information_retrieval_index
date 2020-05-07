@@ -3,8 +3,8 @@
 """
 
 from typing import List
-# main
 
+# main
 CORPUS_PARSER: bool = False
 BUILD_INDEX: bool = False
 SEPARATOR: str = '*' * 30 + '\n'
