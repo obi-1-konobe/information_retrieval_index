@@ -14,10 +14,9 @@ from boolean_search import BooleanSearch as bs
 # триггер на запуск парсера
 if c.CORPUS_PARSER:
     p = Parser()
-    p.run(c.STOP_DOWNLOAD_SIZE)
+    p.run()
 # триггер на сборку обратного индекса
 if c.BUILD_INDEX:
-
     idx = GetIndex()
     idx.save_block_index()
     idx.combine_block_index()

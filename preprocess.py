@@ -47,7 +47,7 @@ class Preprocessing:
     @staticmethod
     def process_query(
             query_list: List[str],
-            index: Dict[str, List],
+            index: Dict[int, List],
             doc_id_dict: Dict
     ) -> Tuple[List, List]:
         """
